@@ -1,43 +1,42 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-void encryptMonoalphabetic(char message[], char key[]) 
+#include<stdio.h>
+#include<ctype.h>
+#define ALPHABET_SIZE 26
+void caesarCipher(char message[], int key)
 {
-    int i;
-    char encryptedMessage[1000];
-
-    for (i = 0; i < strlen(message); i++) 
+	
+	int i=0;
+	char ch;
+	while(message[i]!='\0')
 	{
-        char currentChar = message[i];
-
-        if (isupper(currentChar)) 
+    	ch=message[i];
+    	if(isalpha(ch))
 		{
-            encryptedMessage[i] = key[currentChar - 'A'];
-        }
-        else if (islower(currentChar)) 
-		{
-            encryptedMessage[i] = tolower(key[currentChar - 'a']);
-        }     
-        else 
-		{
-            encryptedMessage[i] = currentChar;
-        }
+    		char base=islower(ch)?'a':'A';
+    		message[i]=(ch-base+key)%
+			ALPHABET_SIZE+base;
+		} 
+		   i++;
     }
-    encryptedMessage[i] = '\0';
-    printf("Encrypted message: %s\n", encryptedMessage);
 }
-int main() 
-{
-    char message[1000];
-    char key[] = "ZYXWVUTSRQPONMLKJIHGFEDCBA"; 
-   
-    printf("Enter the message to encrypt: ");
+
+int main() {
+    char message[100];
+    int key, i;
+
+    printf("Enter a message to encrypt: ");
     fgets(message, sizeof(message), stdin);
- 
-    if (strlen(message) > 0 && message[strlen(message) - 1] == '\n') 
-	{
-        message[strlen(message) - 1] = '\0';
-    }  
-    encryptMonoalphabetic(message, key);
+
+    printf("Enter the key value (1-25): ");
+    scanf("%d", &key);
+
+    
+    caesarCipher(message, key);
+
+    printf("Encrypted message: %s\n", message);
+
     return 0;
 }
+
+            
+ 
+   
